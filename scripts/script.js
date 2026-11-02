@@ -225,6 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to populate gallery grid
     function populateGallery(category) {
+        if (!galleryGrid) {
+            return;
+        }
+
         console.log(`Populating gallery for category: ${category}`);
         filterButtons.forEach(btn => btn.classList.remove('active'));
         const activeButton = document.querySelector(`.filter-btn[data-category="${category}"]`);
@@ -283,6 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
         body.classList.toggle('menu-open');
+        hamburger.setAttribute('aria-expanded', hamburger.classList.contains('active'));
     });
 
     // Close menu when a nav link is clicked
@@ -292,6 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
             body.classList.remove('menu-open');
+            hamburger.setAttribute('aria-expanded', 'false');
         });
     });
 
