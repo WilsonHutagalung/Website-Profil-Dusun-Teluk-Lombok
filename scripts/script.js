@@ -1,7 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('nav ul');
+    const nav = document.querySelector('nav');
     const body = document.body;
+
+    if (hamburger && navMenu && nav) {
+        hamburger.addEventListener('click', () => {
+            const isOpen = !body.classList.contains('menu-open');
+            hamburger.classList.toggle('active', isOpen);
+            navMenu.classList.toggle('active', isOpen);
+            nav.classList.toggle('active', isOpen);
+            body.classList.toggle('menu-open', isOpen);
+            nav.style.display = isOpen ? 'block' : '';
+            hamburger.setAttribute('aria-expanded', String(isOpen));
+        });
+        hamburger.dataset.menuBound = 'true';
+    }
     const filterButtons = document.querySelectorAll('.filter-btn');
     const galleryGrid = document.getElementById('gallery-grid');
     
@@ -293,11 +307,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Hamburger menu toggle
-    if (hamburger && navMenu) {
+    if (hamburger && navMenu && nav && hamburger.dataset.menuBound !== 'true') {
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
+            nav.classList.toggle('active');
             body.classList.toggle('menu-open');
+            nav.style.display = body.classList.contains('menu-open') ? 'block' : '';
             hamburger.setAttribute('aria-expanded', hamburger.classList.contains('active'));
         });
     }
@@ -308,6 +324,10 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', () => {
             hamburger?.classList.remove('active');
             navMenu?.classList.remove('active');
+            nav?.classList.remove('active');
+            if (nav) {
+                nav.style.display = '';
+            }
             body.classList.remove('menu-open');
             hamburger?.setAttribute('aria-expanded', 'false');
         });

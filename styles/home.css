@@ -81,14 +81,14 @@ header.scrolled {
     min-height: 78px;
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: 16px;
 }
 
 .brand {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-right: auto;
+    flex-shrink: 0;
 }
 
 .brand img {
@@ -105,19 +105,24 @@ header.scrolled {
 
 .brand strong {
     color: var(--green);
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .brand small {
     margin-top: 4px;
     color: var(--muted);
-    font-size: 11px;
+    font-size: 10px;
+}
+
+nav {
+    flex: 1;
 }
 
 nav ul {
     display: flex;
     align-items: center;
-    gap: 22px;
+    justify-content: center;
+    gap: 16px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -151,10 +156,11 @@ nav li.active a {
 }
 
 .header-action {
-    padding: 10px 14px;
+    margin-left: auto;
+    padding: 8px 10px;
     background: var(--green-light);
     color: var(--white);
-    font-size: 12px;
+    font-size: 10px;
     white-space: nowrap;
 }
 
@@ -874,11 +880,22 @@ footer {
 
 @media (max-width: 780px) {
     .container {
-        width: min(100% - 34px, 600px);
+        width: min(100% - 24px, 600px);
     }
 
     .header-inner {
         min-height: 68px;
+        gap: 10px;
+    }
+
+    .brand {
+        min-width: 0;
+        gap: 9px;
+    }
+
+    .brand img {
+        width: 42px;
+        height: 50px;
     }
 
     .brand small {
@@ -887,11 +904,17 @@ footer {
 
     .brand strong {
         font-size: 16px;
+        white-space: nowrap;
     }
 
     .hamburger {
         display: block;
         order: 3;
+        flex: 0 0 40px;
+        width: 40px;
+        height: 40px;
+        margin-left: auto;
+        padding: 8px 4px;
     }
 
     nav {

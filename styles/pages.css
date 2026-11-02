@@ -53,7 +53,8 @@ header {
 nav ul {
     display: flex;
     align-items: center;
-    gap: 22px;
+    justify-content: center;
+    gap: 16px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -675,22 +676,25 @@ footer .footer-bottom a { color: #c1e4ce; font-size: 20px; }
     box-shadow: none;
 }
 .site-header .container { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
-.site-header .header-inner { min-height: 78px; display: flex; align-items: center; gap: 28px; }
-.site-header .brand { display: flex; align-items: center; gap: 12px; margin-right: auto; }
+.site-header .header-inner { min-height: 78px; display: flex; align-items: center; gap: 16px; }
+.site-header .brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .site-header .brand img { width: 45px; height: 55px; object-fit: contain; }
 .site-header .brand span { display: flex; flex-direction: column; line-height: 1.25; }
-.site-header .brand strong { color: var(--green); font-size: 18px; }
-.site-header .brand small { margin-top: 4px; color: var(--muted); font-size: 11px; }
+.site-header .brand strong { color: var(--green); font-size: 16px; }
+.site-header .brand small { margin-top: 4px; color: var(--muted); font-size: 10px; }
+.site-header nav { flex: 1; }
+.site-header nav ul { justify-content: center; gap: 16px; font-size: 15px; }
 .site-header .header-action {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 10px 14px;
+    margin-left: auto;
+    padding: 8px 10px;
     border-radius: 5px;
     background: var(--green-light);
     color: var(--white);
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 600;
     white-space: nowrap;
 }
@@ -700,11 +704,13 @@ footer .footer-bottom a { color: #c1e4ce; font-size: 20px; }
 @media (max-width: 900px) {
     .government-bar { padding-inline: 18px; font-size: 10px; }
     .government-bar > div:last-child { display: none; }
-    .site-header .container { width: min(100% - 34px, 600px); }
-    .site-header .header-inner { min-height: 68px; }
+    .site-header .container { width: min(100% - 24px, 600px); }
+    .site-header .header-inner { min-height: 68px; gap: 10px; }
+    .site-header .brand { min-width: 0; gap: 9px; }
+    .site-header .brand img { width: 42px; height: 50px; }
     .site-header .brand small { display: none; }
-    .site-header .brand strong { font-size: 16px; }
-    .site-header .hamburger { display: block; }
+    .site-header .brand strong { font-size: 16px; white-space: nowrap; }
+    .site-header .hamburger { display: block; flex: 0 0 40px; width: 40px; height: 40px; margin-left: auto; padding: 8px 4px; }
     .site-header nav { position: absolute; top: 68px; right: 0; left: 0; display: none; margin: 0; border-bottom: 1px solid var(--line); background: var(--white); box-shadow: 0 8px 18px rgb(0 54 37 / 10%); }
     body.menu-open .site-header nav { display: block; }
     .site-header nav ul { display: block; padding: 12px 20px; }
@@ -858,18 +864,24 @@ footer .footer-bottom a { color: #c1e4ce; font-size: 20px; }
 
 @media (max-width: 780px) {
     .page-hero { padding-block: 56px 46px; }
-    .site-header .container { width: min(100% - 34px, 600px); }
-    .site-header .header-inner { min-height: 68px; }
+    .page-hero .breadcrumb { display: none; }
+    .page-hero { padding-top: 32px; }
+    .site-header { position: sticky; top: 0; z-index: 20; backdrop-filter: none; }
+    .site-header .container { width: min(100% - 24px, 600px); }
+    .site-header .header-inner { min-height: 68px; gap: 10px; }
+    .site-header .brand { min-width: 0; gap: 9px; }
+    .site-header .brand img { width: 42px; height: 50px; }
     .site-header .brand small { display: none; }
-    .site-header .brand strong { font-size: 16px; }
-    .site-header .hamburger { display: block; }
+    .site-header .brand strong { font-size: 16px; white-space: nowrap; }
+    .site-header .hamburger { display: block; flex: 0 0 40px; width: 40px; height: 40px; margin-left: auto; padding: 8px 4px; }
     .site-header nav {
-        position: absolute;
+        position: fixed;
         top: 68px;
         right: 0;
         left: 0;
         display: none;
         margin: 0;
+        z-index: 21;
         border-bottom: 1px solid var(--line);
         background: var(--white);
         box-shadow: 0 8px 18px rgb(0 54 37 / 10%);
@@ -877,6 +889,55 @@ footer .footer-bottom a { color: #c1e4ce; font-size: 20px; }
     body.menu-open .site-header nav { display: block; }
     .site-header nav ul { display: block; padding: 12px 20px; }
     .site-header nav a { padding: 10px 0; border-bottom: 1px solid var(--line); }
+}
+
+/* Match the Home mobile navigation exactly. */
+@media (max-width: 780px) {
+    .site-header { position: sticky; }
+    .site-header .header-inner { min-height: 84px; }
+    .site-header .brand img { width: 48px; height: 58px; }
+    .site-header .brand strong { font-size: 17px; }
+    .site-header .hamburger { width: 44px; height: 44px; flex-basis: 44px; }
+    .site-header nav {
+        position: fixed !important;
+        top: 84px !important;
+        right: 0;
+        left: 0;
+        display: none;
+        flex: none;
+        margin: 0;
+        width: 100vw;
+        max-height: calc(100vh - 84px);
+        overflow-y: auto;
+        z-index: 100;
+        border-top: 1px solid #eef2ef;
+        background: var(--white);
+        box-shadow: 0 8px 18px rgb(0 54 37 / 10%);
+    }
+    .site-header nav ul {
+        position: static;
+        top: auto;
+        right: auto;
+        left: auto;
+        display: block;
+        padding: 18px 22px 10px;
+    }
+    .site-header nav a {
+        padding: 13px 0;
+        border-bottom: 1px solid var(--line);
+        font-size: 18px;
+        line-height: 1.35;
+    }
+    .site-header nav li.active a {
+        border-bottom: 1px solid var(--green);
+    }
+    .site-header nav li:last-child a {
+        border-bottom: 0;
+    }
+    body.menu-open .site-header nav,
+    .site-header nav.active {
+        display: block !important;
+    }
 }
 
 @media (max-width: 560px) {
