@@ -196,7 +196,7 @@ nav li.active a {
 .hero {
     position: relative;
     display: flex;
-    min-height: 570px;
+    min-height: 720px;
     align-items: center;
     overflow: hidden;
     background: var(--green);
@@ -210,7 +210,7 @@ nav li.active a {
 }
 
 .hero-image {
-    background: url("/assets/DJI_20250805181226_0036_D.JPG") center / cover no-repeat;
+    background: url("../assets/DJI_20250805181226_0036_D.JPG") center / cover no-repeat;
     opacity: 0.72;
 }
 
@@ -920,7 +920,7 @@ footer {
     }
 
     .hero {
-        min-height: 620px;
+        min-height: 720px;
     }
 
     .hero-content {

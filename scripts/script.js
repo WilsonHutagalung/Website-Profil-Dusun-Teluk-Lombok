@@ -6,6 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const galleryGrid = document.getElementById('gallery-grid');
     
     const mapButtons = document.querySelectorAll('.map-button'); // Tambahkan selektor untuk tombol peta
+    const assetPrefix = window.location.pathname.includes('/views/LandingPagePotensi/')
+        ? '../../assets/'
+        : window.location.pathname.includes('/views/')
+            ? '../assets/'
+            : 'assets/';
     const imageCategories = {
         // Define category-to-image mapping manually
         "all": [],
@@ -163,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { src: "/assets/galeri/Kemasyrakatan/Kerja Bakti(6).jpg", alt: "Kerja Bakti Bersama Warga" },
             { src: "/assets/galeri/Kemasyrakatan/Membersihkan Gedung Serbaguna.jpg", alt: "Kerja Bakti Bersama Warga" },
             { src: "/assets/galeri/Kemasyrakatan/Membersihkan Gedung Serbaguna(2).jpg", alt: "Kerja Bakti Bersama Warga" },
-            { src: "/assets/galeri/Kemasyrakatan/Sosialisasi Program Kerja individu.jpg", alt: "Sosialisasi Program Kerja individu" },
+            { src: "/assets/galeri/Kemasyrakatan/Sosialisasi Program Kerja Individu.jpg", alt: "Sosialisasi Program Kerja Individu" },
             { src: "/assets/galeri/Kemasyrakatan/Sosialisasi Program Kerja Individu (1).jpg", alt: "Sosialisasi Program Kerja individu" },
             { src: "/assets/galeri/Kemasyrakatan/Sosialisasi Kegiatan Program Kerja Individu(3).jpg", alt: "Sosialisasi Program Kerja individu" },
             { src: "/assets/galeri/Kemasyrakatan/Sosialiasi Proker.jpg", alt: "Sosialisasi Program Kerja" },
@@ -179,13 +184,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Preload all images
     function preloadImages() {
+        const allImages = Object.values(imageCategories).flat().map(item => item.src || item);
         allImages.forEach(imageSrc => {
-            const allImages = Object.values(imageCategories).flat().map(item => item.src || item);
             const img = new Image();
-            img.src = imageSrc;
-            img.onload = () => console.log(`Image preloaded: ${imageSrc}`);
-            img.onerror = () => console.log(`Failed to preload image: ${imageSrc}`);
+            const resolvedImageSrc = resolveAssetPath(imageSrc);
+            img.src = resolvedImageSrc;
+            img.onload = () => console.log(`Image preloaded: ${resolvedImageSrc}`);
+            img.onerror = () => console.log(`Failed to preload image: ${resolvedImageSrc}`);
         });
+    }
+
+    function resolveAssetPath(imageSrc) {
+        return imageSrc.startsWith('/assets/') ? `${assetPrefix}${imageSrc.slice('/assets/'.length)}` : imageSrc;
     }
 
     // Helper function to extract category from image path
@@ -209,12 +219,12 @@ document.addEventListener('DOMContentLoaded', () => {
         galleryItem.setAttribute('data-category', category);
 
         const img = document.createElement('img');
-        img.src = imageSrc;
+        img.src = resolveAssetPath(imageSrc);
         img.alt = altText || `Image from ${category}`;
         img.loading = 'lazy';
         img.onload = () => console.log(`Image loaded: ${imageSrc}`);
         img.onerror = () => {
-            img.src = '/assets/galeri/placeholder.jpg';
+            img.src = resolveAssetPath('/assets/galeri/Pantai-Teluk-Lombok.jpg');
             img.alt = 'Placeholder Image';
             console.log(`Failed to load image: ${imageSrc}, using placeholder`);
         };
@@ -283,21 +293,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Hamburger menu toggle
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-        body.classList.toggle('menu-open');
-        hamburger.setAttribute('aria-expanded', hamburger.classList.contains('active'));
-    });
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            body.classList.toggle('menu-open');
+            hamburger.setAttribute('aria-expanded', hamburger.classList.contains('active'));
+        });
+    }
 
     // Close menu when a nav link is clicked
     const navLinks = document.querySelectorAll('nav ul li a');
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+            hamburger?.classList.remove('active');
+            navMenu?.classList.remove('active');
             body.classList.remove('menu-open');
-            hamburger.setAttribute('aria-expanded', 'false');
+            hamburger?.setAttribute('aria-expanded', 'false');
         });
     });
 
@@ -346,6 +358,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('scroll', function() {
     const header = document.getElementById('header');
+    if (!header) {
+        return;
+    }
     if (window.scrollY > 650) {
         header.classList.add('scrolled');
     } else {
@@ -356,6 +371,9 @@ window.addEventListener('scroll', function() {
 // Scroll to Top Functionality
 window.onscroll = function() {
     const scrollToTopButton = document.getElementById("scrollToTop");
+    if (!scrollToTopButton) {
+        return;
+    }
     if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
         scrollToTopButton.classList.add("show");
     } else {
@@ -363,16 +381,22 @@ window.onscroll = function() {
     }
 };
 
-document.getElementById("scrollToTop").addEventListener("click", function() {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+const scrollToTopButton = document.getElementById("scrollToTop");
+if (scrollToTopButton) {
+    scrollToTopButton.addEventListener("click", function() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
     });
-});
+}
 
 // Header scroll effect
 window.addEventListener("scroll", function() {
     const header = document.getElementById('header');
+    if (!header) {
+        return;
+    }
     if (window.pageYOffset > 50) {
         header.classList.add("scrolled");
     } else {
